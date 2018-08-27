@@ -36,6 +36,10 @@ services:
         resource: '../../src/AppBundle/Resolver'
         tags: ['overblog_graphql.resolver']
 
+    AppBundle\Mutation\:
+        resource: '../../src/AppBundle/Mutation'
+        tags: ['overblog_graphql.mutation']
+
     AppBundle\DataFixtures\:
         resource: '../../src/AppBundle/DataFixtures'
         tags: ['doctrine.fixture.orm']

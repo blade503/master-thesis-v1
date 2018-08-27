@@ -1,0 +1,22 @@
+CustomerInput:
+    type: input-object
+    config:
+        fields:
+            firstName:
+                type: "String"
+                description: "firstName"
+            lastName:
+                type: "String"
+                description: "lastName"
+            city:
+                type: "String"
+                description: "city"
+            country:
+                type: "String"
+                description: "country"
+            socialSecurityNumber:
+                type: "String"
+                description: "socialSecurityNumber"
+            mobile:
+                type: "String"
+                description: "mobile"
