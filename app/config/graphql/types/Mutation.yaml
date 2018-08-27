@@ -1,0 +1,11 @@
+Mutation:
+    type: object
+    config:
+        fields:
+            editCustomer:
+                type: 'Customer'
+                resolve: "@=resolver('Customer', [args['id']])"
+                args:
+                    customer:
+                        description: 'The informations of the customer'
+                        type: CustomerInput!

@@ -1,0 +1,35 @@
+Customer:
+    type: object
+    config :
+        description : "Customer entity"
+        fields:
+            id:
+                type: "ID"
+                description: "id"
+            firstName:
+                type: "String"
+                description: "firstName"
+            lastName:
+                type: "String"
+                description: "lastName"
+            email:
+                type: "String"
+                description: "email"
+            city:
+                type: "String"
+                description: "city"
+            country:
+                type: "String"
+                description: "country"
+            socialSecurityNumber:
+                type: "String"
+                description: "socialSecurityNumber"
+            mobile:
+                type: "String"
+                description: "mobile"
+            salary:
+                type: "String"
+                description: "salary"
+            createdAt:
+                type: "DateTime"
+                description: "Date of creation"
