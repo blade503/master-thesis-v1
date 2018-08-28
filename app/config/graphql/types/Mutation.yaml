@@ -8,7 +8,17 @@ Mutation:
                 args:
                     input:
                         description: 'The informations of the customer'
-                        type: CustomerInput!
+                        type: NewCustomerInput!
+            EditCustomer:
+                type: 'Customer'
+                resolve: "@=mutation('EditCustomer', [args['id'], args['input']])"
+                args:
+                    id:
+                        description: 'Id of the customer we want to remove'
+                        type: Int!
+                    input:
+                        description: 'The informations of the customer'
+                        type: EditCustomerInput!
             DeleteCustomer:
                 type: 'Boolean'
                 resolve: "@=mutation('DeleteCustomer', [args['id']])"
@@ -17,7 +27,7 @@ Mutation:
                         description: 'Id of the user we want to remove'
                         type: Int!
 
-CustomerInput:
+NewCustomerInput:
     type: input-object
     config:
         fields:
@@ -33,3 +43,22 @@ CustomerInput:
                 type: "String"
             mobile:
                 type: "String"
+
+EditCustomerInput:
+    type: input-object
+    config:
+        fields:
+            firstName:
+                type: "String"
+            lastName:
+                type: "String"
+            city:
+                type: "String"
+            country:
+                type: "String"
+            socialSecurityNumber:
+                type: "String"
+            mobile:
+                type: "String"
+            salary:
+                type: "Int"

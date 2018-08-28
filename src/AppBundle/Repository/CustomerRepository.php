@@ -18,4 +18,72 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
     {
         parent::__construct($entityManager, new ClassMetadata(Customer::class));
     }
+
+    /**
+     * @param $input
+     * @return Customer
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function createCustomer($input)
+    {
+        $customer = new Customer($input['firstName'],  $input['lastName'], $input['city'], $input['country'], $input['socialSecurityNumber'], $input['mobile']);
+        $this->getEntityManager()->persist($customer);
+        $this->getEntityManager()->flush();
+        return $customer;
+    }
+
+    /**
+     * @param $id
+     * @param $input
+     * @return null|object
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function editCustomer($id, $input)
+    {
+        $customer = $this->find($id);
+        $this->updateCustomerData($customer, $input);
+        $this->getEntityManager()->flush();
+        return $customer;
+    }
+
+    /**
+     * @param $id
+     * @return bool
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function deleteCustomer($id) {
+        $customer = $this->find($id);
+        $this->getEntityManager()->remove($customer);
+        $this->getEntityManager()->flush();
+
+        return true;
+    }
+
+    /**
+     * @param $customer
+     * @param $input
+     */
+    public function updateCustomerData($customer, $input) {
+        if (isset($input['firstName'])) {
+            $customer->setFirstName($input['firstName']);
+        }
+        if (isset($input['lastName'])) {
+            $customer->setLastName($input['lastName']);
+        }
+        if (isset($input['city'])) {
+            $customer->setCity($input['city']);
+        }
+        if (isset($input['country'])) {
+            $customer->setCountry($input['country']);
+        }
+        if (isset($input['socialSecurityNumber'])) {
+            $customer->setSocialSecurityNumber($input['socialSecurityNumber']);
+        }
+        if (isset($input['mobile'])) {
+            $customer->setMobile($input['mobile']);
+        }
+        if (isset($input['salary'])) {
+            $customer->setSalary($input['salary']);
+        }
+    }
 }

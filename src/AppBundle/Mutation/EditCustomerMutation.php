@@ -2,12 +2,13 @@
 
 namespace AppBundle\Mutation;
 
-use AppBundle\Repository\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
+use AppBundle\Entity\Customer;
+use AppBundle\Repository\CustomerRepository;
 
-final class DeleteCustomerMutation implements MutationInterface, AliasedInterface
+final class EditCustomerMutation implements MutationInterface, AliasedInterface
 {
     /**
      * @var CustomerRepository
@@ -19,9 +20,15 @@ final class DeleteCustomerMutation implements MutationInterface, AliasedInterfac
         $this->customerRepository = $customerRepository;
     }
 
-    public function resolve($id)
+    /**
+     * @param $id
+     * @param $input
+     * @return null|object
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function resolve($id, $input)
     {
-        return $this->customerRepository->deleteCustomer($id);
+        return $this->customerRepository->editCustomer($id, $input);
     }
 
     /**
@@ -30,7 +37,7 @@ final class DeleteCustomerMutation implements MutationInterface, AliasedInterfac
     public static function getAliases()
     {
         return [
-            'resolve' => 'DeleteCustomer',
+            'resolve' => 'EditCustomer',
         ];
     }
 }

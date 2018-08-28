@@ -27,7 +27,7 @@ class Customer
      *
      * @ORM\Column(name="id", type="bigint")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -134,6 +134,7 @@ class Customer
     public function setFirstName($firstName)
     {
         $this->firstName = $firstName;
+        $this->email = $this->getLastName().'.'.$this->getFirstName().'@gmail.com';
 
         return $this;
     }
@@ -156,6 +157,7 @@ class Customer
     public function setLastName($lastName)
     {
         $this->lastName = $lastName;
+        $this->email = $this->getLastName().'.'.$this->getFirstName().'@gmail.com';
 
         return $this;
     }

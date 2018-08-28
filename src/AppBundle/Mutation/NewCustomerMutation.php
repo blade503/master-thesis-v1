@@ -2,27 +2,31 @@
 
 namespace AppBundle\Mutation;
 
-use Doctrine\ORM\EntityManagerInterface;
+use AppBundle\Repository\CustomerRepository;
 use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
 use AppBundle\Entity\Customer;
 
 final class NewCustomerMutation implements MutationInterface, AliasedInterface
 {
-    private $em;
+    /**
+     * @var CustomerRepository
+     */
+    private $customerRepository;
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(CustomerRepository $customerRepository)
     {
-        $this->em = $em;
+        $this->customerRepository = $customerRepository;
     }
 
+    /**
+     * @param $input
+     * @return Customer
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function resolve($input)
     {
-        $customer = new Customer($input['firstName'],  $input['lastName'], $input['city'], $input['country'], $input['socialSecurityNumber'], $input['mobile']);
-        $this->em->persist($customer);
-        $this->em->flush();
-
-        return $customer;
+       return $this->customerRepository->createCustomer($input);
     }
 
     /**
