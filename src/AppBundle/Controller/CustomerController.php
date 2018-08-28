@@ -40,4 +40,24 @@ class CustomerController extends Controller
 
         return $customer;
     }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_CREATED)
+     * @Rest\Post("/customers")
+     *
+     * @param Request $request
+     * @return mixed
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function postCustomersAction(Request $request)
+    {
+        $em = $this->get('doctrine.orm.entity_manager');
+        $customer = $em->getRepository(Customer::class)->createCustomer($request, 'REST');
+
+        $em->persist($customer);
+        $em->flush();
+
+        return $customer;
+    }
 }
