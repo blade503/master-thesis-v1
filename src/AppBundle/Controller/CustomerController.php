@@ -60,4 +60,16 @@ class CustomerController extends Controller
 
         return $customer;
     }
+
+    /**
+     * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
+     * @Rest\Delete("/customers/{id}")
+     *
+     * @param Request $request
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function removeCustomerAction(Request $request)
+    {
+        $this->get('doctrine.orm.entity_manager')->getRepository(Customer::class)->deleteCustomer($request->get('id'));
+    }
 }

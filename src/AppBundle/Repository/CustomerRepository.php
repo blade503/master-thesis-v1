@@ -60,10 +60,13 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
      */
     public function deleteCustomer($id) {
         $customer = $this->find($id);
-        $this->getEntityManager()->remove($customer);
-        $this->getEntityManager()->flush();
-
-        return true;
+        if ($customer) {
+            $this->getEntityManager()->remove($customer);
+            $this->getEntityManager()->flush();
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
