@@ -1,6 +1,8 @@
 app:
-    resource: '@AppBundle/Controller/'
+    resource: '@AppBundle/Controller/DefaultController.php'
     type: annotation
+
+#GraphQL routing
 
 overblog_graphql_endpoint:
     path: /graphql
@@ -25,3 +27,9 @@ overblog_graphql_batch_multiple_endpoint:
     defaults:
         _controller: overblog_graphql.controller.graphql:batchEndpointAction
         _format: "json"
+
+
+#REST ROUTING
+places:
+    type: rest
+    resource: AppBundle\Controller\CustomerController

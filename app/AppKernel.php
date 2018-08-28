@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new AppBundle\AppBundle(),
 
             new Overblog\GraphQLBundle\OverblogGraphQLBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {
