@@ -64,26 +64,12 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
      * @param $input
      */
     public function updateCustomerData($customer, $input) {
-        if (isset($input['firstName'])) {
-            $customer->setFirstName($input['firstName']);
-        }
-        if (isset($input['lastName'])) {
-            $customer->setLastName($input['lastName']);
-        }
-        if (isset($input['city'])) {
-            $customer->setCity($input['city']);
-        }
-        if (isset($input['country'])) {
-            $customer->setCountry($input['country']);
-        }
-        if (isset($input['socialSecurityNumber'])) {
-            $customer->setSocialSecurityNumber($input['socialSecurityNumber']);
-        }
-        if (isset($input['mobile'])) {
-            $customer->setMobile($input['mobile']);
-        }
-        if (isset($input['salary'])) {
-            $customer->setSalary($input['salary']);
+        $customerFields = array('firstName', 'lastName', 'city', 'country', 'socialSecurityNumber', 'mobile', 'salary');
+        foreach ($customerFields as $item) {
+            if(isset($input[$item])) {
+                $setter = 'set'.ucfirst($item);
+                $customer->$setter($input[$item]);
+            }
         }
     }
 }

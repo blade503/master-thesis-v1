@@ -19,6 +19,12 @@ final class DeleteCustomerMutation implements MutationInterface, AliasedInterfac
         $this->customerRepository = $customerRepository;
     }
 
+    /**
+     * @param $id
+     * @return bool
+     *
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
     public function resolve($id)
     {
         return $this->customerRepository->deleteCustomer($id);
