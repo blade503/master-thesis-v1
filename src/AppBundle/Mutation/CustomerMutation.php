@@ -16,9 +16,9 @@ final class CustomerMutation implements MutationInterface, AliasedInterface
         $this->em = $em;
     }
 
-    public function resolve($firstName, $lastName, $city, $country, $ssn, $phoneNumber)
+    public function resolve($input)
     {
-        $customer = new Customer($firstName, $lastName, $city, $country, $ssn, $phoneNumber);
+        $customer = new Customer($input['firstName'],  $input['lastName'], $input['city'], $input['country'], $input['socialSecurityNumber'], $input['mobile']);
         $this->em->persist($customer);
         $this->em->flush();
 

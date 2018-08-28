@@ -4,8 +4,25 @@ Mutation:
         fields:
             NewCustomer:
                 type: 'Customer'
-                resolve: "@=resolver('NewCustomer', [args['input']])"
+                resolve: "@=mutation('NewCustomer', [args['input']])"
                 args:
                     input:
                         description: 'The informations of the customer'
-                        type: String!
+                        type: CustomerInput!
+
+CustomerInput:
+    type: input-object
+    config:
+        fields:
+            firstName:
+                type: "String"
+            lastName:
+                type: "String"
+            city:
+                type: "String"
+            country:
+                type: "String"
+            socialSecurityNumber:
+                type: "String"
+            mobile:
+                type: "String"
