@@ -7,7 +7,7 @@ use Overblog\GraphQLBundle\Definition\Resolver\AliasedInterface;
 use Overblog\GraphQLBundle\Definition\Resolver\MutationInterface;
 use AppBundle\Entity\Customer;
 
-final class CustomerMutation implements MutationInterface, AliasedInterface
+final class NewCustomerMutation implements MutationInterface, AliasedInterface
 {
     private $em;
 
