@@ -23,10 +23,13 @@ class CustomerController extends Controller
 
         return $customers;
     }
-
+    
     /**
      * @Rest\View()
      * @Rest\Get("/customers/{id}")
+     *
+     * @param Request $request
+     * @return Customer|null|object|JsonResponse
      */
     public function getCustomerAction(Request $request)
     {
@@ -58,6 +61,27 @@ class CustomerController extends Controller
         $em->persist($customer);
         $em->flush();
 
+        return $customer;
+    }
+
+    /**
+     * @Rest\View()
+     * @Rest\Put("/customers/{id}")
+     *
+     * @param Request $request
+     * @return JsonResponse
+     * @throws \Doctrine\ORM\ORMException
+     */
+    public function putCustomerAction(Request $request)
+    {
+        $customerRepository = $this->get('doctrine.orm.entity_manager')->getRepository(Customer::class);
+        $customer = $customerRepository->find($request->get('id'));
+
+        if (empty($customer)) {
+            return new JsonResponse(['message' => 'Customer not found'], Response::HTTP_NOT_FOUND);
+        }
+
+        $customerRepository->editCustomer($request->get('id'), $request, 'REST');
         return $customer;
     }
 

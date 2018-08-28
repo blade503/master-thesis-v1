@@ -45,10 +45,15 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
      * @return null|object
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function editCustomer($id, $input)
+    public function editCustomer($id, $input, $api)
     {
         $customer = $this->find($id);
-        $this->updateCustomerData($customer, $input);
+        if ($api == 'GRAPHQL') {
+            $this->updateCustomerData($customer, $input);
+        } else {
+            $this->updateCustomerDataRest($customer, $input);
+        }
+
         $this->getEntityManager()->flush();
         return $customer;
     }
@@ -79,6 +84,20 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
             if(isset($input[$item])) {
                 $setter = 'set'.ucfirst($item);
                 $customer->$setter($input[$item]);
+            }
+        }
+    }
+
+    /**
+     * @param $customer
+     * @param $input
+     */
+    public function updateCustomerDataRest($customer, $input) {
+        $customerFields = array('firstName', 'lastName', 'city', 'country', 'socialSecurityNumber', 'mobile', 'salary');
+        foreach ($customerFields as $item) {
+            if($input->request->has($item)) {
+                $setter = 'set'.ucfirst($item);
+                $customer->$setter($input->request->get($item));
             }
         }
     }
