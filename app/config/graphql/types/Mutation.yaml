@@ -9,6 +9,13 @@ Mutation:
                     input:
                         description: 'The informations of the customer'
                         type: CustomerInput!
+            DeleteCustomer:
+                type: 'Boolean'
+                resolve: "@=mutation('DeleteCustomer', [args['id']])"
+                args:
+                    id:
+                        description: 'Id of the user we want to remove'
+                        type: Int!
 
 CustomerInput:
     type: input-object
