@@ -24,14 +24,9 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
      * @return Customer
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function createCustomer($input, $api)
+    public function createCustomer($input)
     {
-        $customer = null;
-        if ($api == 'GRAPHQL') {
-            $customer = new Customer($input['firstName'],  $input['lastName'], $input['city'], $input['country'], $input['socialSecurityNumber'], $input['mobile']);
-        } else {
-            $customer = new Customer($input->get('firstName'),  $input->get('lastName'), $input->get('city'), $input->get('country'), $input->get('socialSecurityNumber'), $input->get('mobile'));
-        }
+        $customer = new Customer($input['firstName'],  $input['lastName'], $input['city'], $input['country'], $input['socialSecurityNumber'], $input['mobile']);  
 
         $this->getEntityManager()->persist($customer);
         $this->getEntityManager()->flush();
