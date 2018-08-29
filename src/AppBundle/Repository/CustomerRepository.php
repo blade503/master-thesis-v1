@@ -43,12 +43,8 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
     public function editCustomer($id, $input, $api)
     {
         $customer = $this->find($id);
-        if ($api == 'GRAPHQL') {
-            $this->updateCustomerData($customer, $input);
-        } else {
-            $this->updateCustomerDataRest($customer, $input);
-        }
-
+        $this->updateCustomerData($customer, $input);
+        
         $this->getEntityManager()->flush();
         return $customer;
     }
@@ -79,20 +75,6 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
             if(isset($input[$item])) {
                 $setter = 'set'.ucfirst($item);
                 $customer->$setter($input[$item]);
-            }
-        }
-    }
-
-    /**
-     * @param $customer
-     * @param $input
-     */
-    public function updateCustomerDataRest($customer, $input) {
-        $customerFields = array('firstName', 'lastName', 'city', 'country', 'socialSecurityNumber', 'mobile', 'salary');
-        foreach ($customerFields as $item) {
-            if($input->request->has($item)) {
-                $setter = 'set'.ucfirst($item);
-                $customer->$setter($input->request->get($item));
             }
         }
     }
