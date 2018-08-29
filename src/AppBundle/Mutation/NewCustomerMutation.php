@@ -26,7 +26,7 @@ final class NewCustomerMutation implements MutationInterface, AliasedInterface
      */
     public function resolve($input)
     {
-       return $this->customerRepository->createCustomer($input,'GRAPHQL');
+       return $this->customerRepository->createCustomer($input);
     }
 
     /**
