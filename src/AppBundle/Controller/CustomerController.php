@@ -56,7 +56,7 @@ class CustomerController extends Controller
     public function postCustomersAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $customer = $em->getRepository(Customer::class)->createCustomer($request->request->all(), 'REST');
+        $customer = $em->getRepository(Customer::class)->createCustomer($request->request->all());
 
         $em->persist($customer);
         $em->flush();
@@ -81,7 +81,7 @@ class CustomerController extends Controller
             return new JsonResponse(['message' => 'Customer not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $customerRepository->editCustomer($request->get('id'), $request->request->all(), 'REST');
+        $customerRepository->editCustomer($request->get('id'), $request->request->all());
         return $customer;
     }
 
