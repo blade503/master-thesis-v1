@@ -56,7 +56,7 @@ class CustomerController extends Controller
     public function postCustomersAction(Request $request)
     {
         $em = $this->get('doctrine.orm.entity_manager');
-        $customer = $em->getRepository(Customer::class)->createCustomer($request, 'REST');
+        $customer = $em->getRepository(Customer::class)->createCustomer($request->request->all(), 'REST');
 
         $em->persist($customer);
         $em->flush();
