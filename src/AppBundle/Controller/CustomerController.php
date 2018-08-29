@@ -81,7 +81,7 @@ class CustomerController extends Controller
             return new JsonResponse(['message' => 'Customer not found'], Response::HTTP_NOT_FOUND);
         }
 
-        $customerRepository->editCustomer($request->get('id'), $request, 'REST');
+        $customerRepository->editCustomer($request->get('id'), $request->request->all(), 'REST');
         return $customer;
     }
 
