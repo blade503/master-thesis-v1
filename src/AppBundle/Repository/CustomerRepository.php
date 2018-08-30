@@ -40,7 +40,7 @@ class CustomerRepository extends \Doctrine\ORM\EntityRepository
      * @return null|object
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function editCustomer($id, $input, $api)
+    public function editCustomer($id, $input)
     {
         $customer = $this->find($id);
         $this->updateCustomerData($customer, $input);
