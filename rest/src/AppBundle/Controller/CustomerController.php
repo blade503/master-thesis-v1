@@ -8,6 +8,7 @@ use AppBundle\Entity\Customer;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use AppBundle\Repository\CustomerRepository;
 
 class CustomerController extends Controller
 {
@@ -75,6 +76,9 @@ class CustomerController extends Controller
     public function putCustomerAction(Request $request)
     {
         $customerRepository = $this->get('doctrine.orm.entity_manager')->getRepository(Customer::class);
+        /**
+         * @var CustomerRepository $customerRepository
+         */
         $customer = $customerRepository->find($request->get('id'));
 
         if (empty($customer)) {

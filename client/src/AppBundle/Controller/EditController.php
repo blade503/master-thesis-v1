@@ -9,16 +9,26 @@ use Symfony\Component\Routing\Annotation\Route;
 class EditController extends Controller
 {
     /**
-     * @Route("/rest/GetCustomers", name="restGetCustomers")
+     * @Route("/rest/edit-customer/{id}", name="rest_edit_customer")
      */
-    public function restGetAction(Request $request)
+    public function restEditAction(Request $request)
     {
-        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        if(curl_exec($ch))
+        $data = array(
+            "firstName"=>"toto",
+            "lastName"=>"titi",
+            "city"=>"paris",
+            "country"=>"France",
+            "socialSecurityNumber"=>"1940821422294",
+            "mobile"=>"0660920377"
+        );
+
+        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers/'.$request->get('id'));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $content = curl_exec($ch);
+        if($content)
         {
             $info = curl_getinfo($ch);
-            $content = curl_exec($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
@@ -30,17 +40,18 @@ class EditController extends Controller
     }
 
     /**
-     * @Route("/graphql/GetCustomers", name="graphqlGetCustomers")
+     * @Route("/graphql/edit-customer/{id}", name="graphq_edit_customer")
      */
-    public function graphqlGetAction(Request $request)
+    public function graphqlEditAction(Request $request)
     {
         $data = array(
-            'operationName' => 'getCustomers',
-            'query'=> 'query getCustomers { Customers{ id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}'
+            'operationName' => 'EditCustomer',
+            'query'=> 'mutation EditCustomer($editCustomer: EditCustomerInput!) { EditCustomer(id: '.$request->get('id').', input: $editCustomer) { id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}',
+            'variables'=> '{"editCustomer": {"firstName": "henry", "lastName": "modifie", "city": "londres"}}'
         );
 
         $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         if(curl_exec($ch))
         {

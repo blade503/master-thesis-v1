@@ -9,9 +9,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends Controller
 {
     /**
-     * @Route("/rest/GetCustomers", name="restGetCustomers")
+     * @Route("/rest/POSTCustomers", name="restPOSTCustomers")
      */
-    public function restGetAction(Request $request)
+    public function restPostAction(Request $request)
     {
         $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
@@ -30,9 +30,9 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/graphql/GetCustomers", name="graphqlGetCustomers")
+     * @Route("/graphql/POSTCustomers", name="graphqlPOSTCustomers")
      */
-    public function graphqlGetAction(Request $request)
+    public function graphqlPostAction(Request $request)
     {
         $data = array(
             'operationName' => 'getCustomers',

@@ -9,16 +9,16 @@ use Symfony\Component\Routing\Annotation\Route;
 class GetController extends Controller
 {
     /**
-     * @Route("/rest/GetCustomers", name="restGetCustomers")
+     * @Route("/rest/get-customers", name="rest-get-customers")
      */
-    public function restGetAction(Request $request)
+    public function restGetsAction(Request $request)
     {
         $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        if(curl_exec($ch))
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,'GET');
+        $content = curl_exec($ch);
+        if($content)
         {
             $info = curl_getinfo($ch);
-            $content = curl_exec($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
@@ -30,9 +30,9 @@ class GetController extends Controller
     }
 
     /**
-     * @Route("/graphql/GetCustomers", name="graphqlGetCustomers")
+     * @Route("/graphql/get-customers", name="graphql-get-customers")
      */
-    public function graphqlGetAction(Request $request)
+    public function graphqlGetsAction(Request $request)
     {
         $data = array(
             'operationName' => 'getCustomers',
@@ -40,12 +40,60 @@ class GetController extends Controller
         );
 
         $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'GET');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        if(curl_exec($ch))
+        $content = curl_exec($ch);
+        if($content)
         {
             $info = curl_getinfo($ch);
-            $content = curl_exec($ch);
+            return $this->render('default/restGet.html.twig', [
+                'totalTime' => $info['total_time'],
+                'url' => $info['url'],
+                'content' => $content
+            ]);
+        }
+
+        return null;
+    }
+
+    /**
+     * @Route("/rest/get-customer/{id}", name="rest-get-customer")
+     */
+    public function restGetAction(Request $request)
+    {
+        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers/'.$request->get('id'));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,'GET');
+        $content = curl_exec($ch);
+        if($content)
+        {
+            $info = curl_getinfo($ch);
+            return $this->render('default/restGet.html.twig', [
+                'totalTime' => $info['total_time'],
+                'url' => $info['url'],
+                'content' => $content
+            ]);
+        }
+
+        return null;
+    }
+
+    /**
+     * @Route("/graphql/get-customer/{id}", name="graphql-get-customer")
+     */
+    public function graphqlGetAction(Request $request)
+    {
+        $data = array(
+            'operationName' => 'getCustomer',
+            'query'=> 'query getCustomer { Customer(id:'.$request->get('id').'){ id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}'
+        );
+
+        $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'GET');
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $content = curl_exec($ch);
+        if($content)
+        {
+            $info = curl_getinfo($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
