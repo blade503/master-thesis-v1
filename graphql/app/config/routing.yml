@@ -1,0 +1,27 @@
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+overblog_graphql_endpoint:
+    path: /graphql
+    defaults:
+        _controller: overblog_graphql.controller.graphql:endpointAction
+        _format: "json"
+
+overblog_graphql_batch_endpoint:
+    path: /batch
+    defaults:
+        _controller: overblog_graphql.controller.graphql:batchEndpointAction
+        _format: "json"
+
+overblog_graphql_multiple_endpoint:
+    path: /graphql/{schemaName}
+    defaults:
+        _controller: overblog_graphql.controller.graphql:endpointAction
+        _format: "json"
+
+overblog_graphql_batch_multiple_endpoint:
+    path: /graphql/{schemaName}/batch
+    defaults:
+        _controller: overblog_graphql.controller.graphql:batchEndpointAction
+        _format: "json"

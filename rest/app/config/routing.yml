@@ -1,0 +1,8 @@
+app:
+    resource: '@AppBundle/Controller/DefaultController.php'
+    type: annotation
+
+#Rest Routing
+places:
+    type: rest
+    resource: AppBundle\Controller\CustomerController
