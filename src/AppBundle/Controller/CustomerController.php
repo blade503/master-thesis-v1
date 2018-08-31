@@ -13,7 +13,7 @@ class CustomerController extends Controller
 {
     /**
      * @Rest\View()
-     * @Rest\Get("/customers")
+     * @Rest\Get("/rest/customers")
      */
     public function getCustomersAction(Request $request)
     {
@@ -26,7 +26,7 @@ class CustomerController extends Controller
     
     /**
      * @Rest\View()
-     * @Rest\Get("/customers/{id}")
+     * @Rest\Get("/rest/customers/{id}")
      *
      * @param Request $request
      * @return Customer|null|object|JsonResponse
@@ -46,7 +46,7 @@ class CustomerController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_CREATED)
-     * @Rest\Post("/customers")
+     * @Rest\Post("/rest/customers")
      *
      * @param Request $request
      * @return mixed
@@ -66,7 +66,7 @@ class CustomerController extends Controller
 
     /**
      * @Rest\View()
-     * @Rest\Put("/customers/{id}")
+     * @Rest\Put("/rest/customers/{id}")
      *
      * @param Request $request
      * @return JsonResponse
@@ -87,7 +87,7 @@ class CustomerController extends Controller
 
     /**
      * @Rest\View(statusCode=Response::HTTP_NO_CONTENT)
-     * @Rest\Delete("/customers/{id}")
+     * @Rest\Delete("/rest/customers/{id}")
      *
      * @param Request $request
      * @throws \Doctrine\ORM\ORMException
