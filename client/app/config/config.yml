@@ -7,6 +7,7 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    base_url: http://localhost:8888/master-thesis-v1/
 
 framework:
     #esi: ~

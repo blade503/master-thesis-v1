@@ -21,7 +21,7 @@ class PostController extends Controller
             "socialSecurityNumber"=>"1940821422294",
             "mobile"=>"0660920377"
         );
-        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers');
+        $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
@@ -32,6 +32,8 @@ class PostController extends Controller
             curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);
@@ -51,7 +53,7 @@ class PostController extends Controller
             'variables'=> '{"newCustomer": {"firstName": "henry", "lastName": "modifie", "city": "londres", "country": "England", "socialSecurityNumber": "194087521422275", "mobile": "0660920377"}}'
         );
 
-        $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
+        $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
@@ -61,6 +63,8 @@ class PostController extends Controller
             curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);

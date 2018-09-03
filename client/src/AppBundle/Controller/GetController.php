@@ -13,7 +13,7 @@ class GetController extends Controller
      */
     public function restGetsAction(Request $request)
     {
-        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers');
+        $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER,'GET');
         $content = curl_exec($ch);
         if($content)
@@ -21,6 +21,8 @@ class GetController extends Controller
             $info = curl_getinfo($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);
@@ -39,7 +41,7 @@ class GetController extends Controller
             'query'=> 'query getCustomers { Customers{ id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}'
         );
 
-        $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
+        $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'GET');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
@@ -48,6 +50,8 @@ class GetController extends Controller
             $info = curl_getinfo($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);

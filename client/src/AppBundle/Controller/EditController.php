@@ -22,7 +22,7 @@ class EditController extends Controller
             "mobile"=>"0660920377"
         );
 
-        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers/'.$request->get('id'));
+        $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers/'.$request->get('id'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
@@ -33,6 +33,8 @@ class EditController extends Controller
             curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);
@@ -49,10 +51,10 @@ class EditController extends Controller
         $data = array(
             'operationName' => 'EditCustomer',
             'query'=> 'mutation EditCustomer($editCustomer: EditCustomerInput!) { EditCustomer(id: '.$request->get('id').', input: $editCustomer) { id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}',
-            'variables'=> '{"editCustomer": {"firstName": "henry", "lastName": "modifie", "city": "londres"}}'
+            'variables'=> '{"editCustomer": {"firstName":"Anthony", "lastName":"Kavanagh", "city":"New-York", "country":"Etats-Unis", "socialSecurityNumber":"1940821422294", "mobile":"0660920377"}}'
         );
 
-        $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
+        $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
@@ -60,8 +62,11 @@ class EditController extends Controller
         {
             $info = curl_getinfo($ch);
             curl_close($ch);
+
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);

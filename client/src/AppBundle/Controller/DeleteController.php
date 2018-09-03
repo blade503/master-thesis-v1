@@ -13,7 +13,8 @@ class DeleteController extends Controller
      */
     public function restDeleteAction(Request $request)
     {
-        $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers/'.$request->get('id'));
+
+        $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers/'.$request->get('id'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
         $content = curl_exec($ch);
         if($content)
@@ -22,6 +23,8 @@ class DeleteController extends Controller
             curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);
@@ -40,7 +43,7 @@ class DeleteController extends Controller
             'query'=> 'mutation DeleteCustomer { DeleteCustomer(id: '.$request->get('id').')}'
         );
 
-        $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
+        $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
@@ -50,6 +53,8 @@ class DeleteController extends Controller
             curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
+                'headerSize' => $info['header_size'],
+                'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
             ]);
