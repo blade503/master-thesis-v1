@@ -19,6 +19,7 @@ class DeleteController extends Controller
         if($content)
         {
             $info = curl_getinfo($ch);
+            curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
@@ -46,6 +47,7 @@ class DeleteController extends Controller
         if($content)
         {
             $info = curl_getinfo($ch);
+            curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],

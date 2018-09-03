@@ -70,8 +70,7 @@ class CustomerController extends Controller
      * @Rest\Put("/customers/{id}")
      *
      * @param Request $request
-     * @return JsonResponse
-     * @throws \Doctrine\ORM\ORMException
+     * @return null|object|JsonResponse
      */
     public function putCustomerAction(Request $request)
     {
@@ -86,6 +85,7 @@ class CustomerController extends Controller
         }
 
         $customerRepository->editCustomer($request->get('id'), $request->request->all());
+
         return $customer;
     }
 

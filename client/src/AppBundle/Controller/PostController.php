@@ -9,16 +9,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class PostController extends Controller
 {
     /**
-     * @Route("/rest/POSTCustomers", name="restPOSTCustomers")
+     * @Route("/rest/post-customer", name="rest_post_customer")
      */
     public function restPostAction(Request $request)
     {
+        $data = array(
+            "firstName"=>"Anthony",
+            "lastName"=>"Kavanagh",
+            "city"=>"New-York",
+            "country"=>"Etats-Unis",
+            "socialSecurityNumber"=>"1940821422294",
+            "mobile"=>"0660920377"
+        );
         $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
-        if(curl_exec($ch))
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $content = curl_exec($ch);
+        if($content)
         {
             $info = curl_getinfo($ch);
-            $content = curl_exec($ch);
+            curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
@@ -30,22 +41,24 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/graphql/POSTCustomers", name="graphqlPOSTCustomers")
+     * @Route("/graphql/post-customer", name="graphq_post_customer")
      */
     public function graphqlPostAction(Request $request)
     {
         $data = array(
-            'operationName' => 'getCustomers',
-            'query'=> 'query getCustomers { Customers{ id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}'
+            'operationName' => 'NewCustomer',
+            'query'=> 'mutation NewCustomer($newCustomer: NewCustomerInput!) {  NewCustomer(input: $newCustomer) { id lastName firstName email city country socialSecurityNumber mobile salary createdAt }}',
+            'variables'=> '{"newCustomer": {"firstName": "henry", "lastName": "modifie", "city": "londres", "country": "England", "socialSecurityNumber": "194087521422275", "mobile": "0660920377"}}'
         );
 
         $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        if(curl_exec($ch))
+        $content = curl_exec($ch);
+        if($content)
         {
             $info = curl_getinfo($ch);
-            $content = curl_exec($ch);
+            curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],

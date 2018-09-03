@@ -14,21 +14,23 @@ class EditController extends Controller
     public function restEditAction(Request $request)
     {
         $data = array(
-            "firstName"=>"toto",
-            "lastName"=>"titi",
-            "city"=>"paris",
-            "country"=>"France",
+            "firstName"=>"Anthony",
+            "lastName"=>"Kavanagh",
+            "city"=>"New-York",
+            "country"=>"Etats-Unis",
             "socialSecurityNumber"=>"1940821422294",
             "mobile"=>"0660920377"
         );
 
         $ch = curl_init('http://localhost:8888/thesis/rest/web/app_dev.php/customers/'.$request->get('id'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         $content = curl_exec($ch);
         if($content)
         {
             $info = curl_getinfo($ch);
+            curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
@@ -53,10 +55,11 @@ class EditController extends Controller
         $ch = curl_init('http://localhost:8888/thesis/graphql/web/app_dev.php/graphql');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
-        if(curl_exec($ch))
+        $content = curl_exec($ch);
+        if($content)
         {
             $info = curl_getinfo($ch);
-            $content = curl_exec($ch);
+            curl_close($ch);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'url' => $info['url'],
