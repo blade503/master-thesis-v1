@@ -22,7 +22,7 @@ class PostController extends Controller
             "mobile"=>"0660920377"
         );
         $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
@@ -54,7 +54,7 @@ class PostController extends Controller
         );
 
         $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
         if($content)

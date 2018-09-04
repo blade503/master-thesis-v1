@@ -16,6 +16,7 @@ class DeleteController extends Controller
 
         $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers/'.$request->get('id'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $content = curl_exec($ch);
         if($content)
         {
@@ -46,6 +47,7 @@ class DeleteController extends Controller
         $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $content = curl_exec($ch);
         if($content)
         {

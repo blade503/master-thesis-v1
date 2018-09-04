@@ -24,7 +24,7 @@ class EditController extends Controller
 
         $ch = curl_init($this->container->getParameter('base_url').'rest/web/app_dev.php/customers/'.$request->get('id'));
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "PUT");
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($data));
         $content = curl_exec($ch);
         if($content)
@@ -55,7 +55,7 @@ class EditController extends Controller
         );
 
         $ch = curl_init($this->container->getParameter('base_url').'graphql/web/app_dev.php/graphql');
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'POST');
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
         $content = curl_exec($ch);
         if($content)
