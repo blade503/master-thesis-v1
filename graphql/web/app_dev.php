@@ -32,4 +32,4 @@ $kernel->terminate($request, $response);
 
 //$unit=array('b','kb','mb','gb','tb','pb');
 // round($size/pow(1024,($i=floor(log($size,1024)))),2).' '.$unit[$i]
-file_put_contents('../../graphql.txt', memory_get_usage(true)."\n", FILE_APPEND);
+file_put_contents('../../graphqlMemory.txt', memory_get_usage(true)."\n", FILE_APPEND);

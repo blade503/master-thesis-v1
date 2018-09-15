@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class EditController extends Controller
@@ -31,13 +32,13 @@ class EditController extends Controller
         {
             $info = curl_getinfo($ch);
             curl_close($ch);
-            return $this->render('default/restGet.html.twig', [
-                'totalTime' => $info['total_time'],
-                'headerSize' => $info['header_size'],
-                'requestSize' => $info['request_size'],
-                'url' => $info['url'],
-                'content' => $content
-            ]);
+            file_put_contents('../../restEditRequestSize.txt', $info['request_size']."\n", FILE_APPEND);
+            file_put_contents('../../restEditReponseTime.txt', $info['total_time']."\n", FILE_APPEND);
+            return new Response(
+                'go checker le fichier graphqlGetDump.txt',
+                Response::HTTP_OK,
+                array('content-type' => 'text/html')
+            );
         }
 
         return null;
@@ -62,14 +63,13 @@ class EditController extends Controller
         {
             $info = curl_getinfo($ch);
             curl_close($ch);
-
-            return $this->render('default/restGet.html.twig', [
-                'totalTime' => $info['total_time'],
-                'headerSize' => $info['header_size'],
-                'requestSize' => $info['request_size'],
-                'url' => $info['url'],
-                'content' => $content
-            ]);
+            file_put_contents('../../graphqlEditRequestSize.txt', $info['request_size']."\n", FILE_APPEND);
+            file_put_contents('../../graphqlEditReponseTime.txt', $info['total_time']."\n", FILE_APPEND);
+            return new Response(
+                'go checker le fichier graphqlGetDump.txt',
+                Response::HTTP_OK,
+                array('content-type' => 'text/html')
+            );
         }
 
         return null;

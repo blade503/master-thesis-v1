@@ -14,8 +14,17 @@ class HomeController extends Controller
      */
     public function HomeAction(Request $request)
     {
+        for($i=102; $i<=202; $i++) {
+            $ch = curl_init('http://localhost:8888/master-thesis-V1/client/web/graphql/delete-customer/'.$i);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 'GET');
+            $content = curl_exec($ch);
+            if ($content) {
+                $info = curl_getinfo($ch);
+                curl_close($ch);
+            }
+        }
         return new Response(
-            'Je suis la page home avec le lien des différentes pages',
+            'go checker le fichier graphqlGetDump.txt',
             Response::HTTP_OK,
             array('content-type' => 'text/html')
         );

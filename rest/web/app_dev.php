@@ -30,4 +30,4 @@ $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
 
-file_put_contents('../../rest.txt', memory_get_usage(true)."\n", FILE_APPEND);
+file_put_contents('../../restMemory.txt', memory_get_usage(true)."\n", FILE_APPEND);

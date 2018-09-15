@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class GetController extends Controller
@@ -19,6 +20,7 @@ class GetController extends Controller
         if($content)
         {
             $info = curl_getinfo($ch);
+            file_put_contents('../../graphqlGetDump.txt', $info['request_size'].", ".$info['total_time']."\n", FILE_APPEND);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'headerSize' => $info['header_size'],
@@ -72,13 +74,20 @@ class GetController extends Controller
         {
             $info = curl_getinfo($ch);
             curl_close($ch);
-            return $this->render('default/restGet.html.twig', [
+            file_put_contents('../../restGetRequestSize.txt', $info['request_size']."\n", FILE_APPEND);
+            file_put_contents('../../restGetReponseTime.txt', $info['total_time']."\n", FILE_APPEND);
+            return new Response(
+                'go checker le fichier restGetRequestSize.txt',
+                Response::HTTP_OK,
+                array('content-type' => 'text/html')
+            );
+            /*return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'headerSize' => $info['header_size'],
                 'requestSize' => $info['request_size'],
                 'url' => $info['url'],
                 'content' => $content
-            ]);
+            ]);*/
         }
 
         return null;
@@ -102,13 +111,13 @@ class GetController extends Controller
         {
             $info = curl_getinfo($ch);
             curl_close($ch);
-            return $this->render('default/restGet.html.twig', [
-                'totalTime' => $info['total_time'],
-                'headerSize' => $info['header_size'],
-                'requestSize' => $info['request_size'],
-                'url' => $info['url'],
-                'content' => $content
-            ]);
+            file_put_contents('../../graphqlGetRequestSize.txt', $info['request_size']."\n", FILE_APPEND);
+            file_put_contents('../../graphqlGetReponseTime.txt', $info['total_time']."\n", FILE_APPEND);
+            return new Response(
+                'go checker le fichier graphqlGetDump.txt',
+                Response::HTTP_OK,
+                array('content-type' => 'text/html')
+            );
         }
 
         return null;
