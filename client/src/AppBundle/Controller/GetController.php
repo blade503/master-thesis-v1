@@ -20,7 +20,7 @@ class GetController extends Controller
         if($content)
         {
             $info = curl_getinfo($ch);
-            file_put_contents('../../graphqlGetDump.txt', $info['request_size'].", ".$info['total_time']."\n", FILE_APPEND);
+            file_put_contents('../../restGetsDump.txt', $info['request_size'].", ".$info['total_time']."\n", FILE_APPEND);
             return $this->render('default/restGet.html.twig', [
                 'totalTime' => $info['total_time'],
                 'headerSize' => $info['header_size'],
@@ -50,7 +50,7 @@ class GetController extends Controller
         if($content)
         {
             $info = curl_getinfo($ch);
-            return $this->render('default/restGet.html.twig', [
+            return $this->render('default/graphQLGetsDump.html.twig', [
                 'totalTime' => $info['total_time'],
                 'headerSize' => $info['header_size'],
                 'requestSize' => $info['request_size'],

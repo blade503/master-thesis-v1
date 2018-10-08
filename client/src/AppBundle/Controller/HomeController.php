@@ -24,7 +24,7 @@ class HomeController extends Controller
             }
         }
         return new Response(
-            'go checker le fichier graphqlGetDump.txt',
+            'Let\'s check the file XXXX',
             Response::HTTP_OK,
             array('content-type' => 'text/html')
         );
