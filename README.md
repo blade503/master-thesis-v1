@@ -3,6 +3,10 @@ master-thesis
 
 Ce projet a été réalisé dans le but d'un mémoire de master. L'objectif étant de réaliser une analyse comparatives des performances entre Rest et Graphql
 
+EN Version
+
+This project has been done for a master thesis. The goal was to make a performance analyse of graphql and rest usgin symfony projects
+
 ================
 
 Commandes utiles pour mettre en place se projet
